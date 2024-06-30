@@ -13,7 +13,7 @@ class task_robot(threading.Thread):
                 
         self.rate = rospy.Rate(10)
         
-        self.home_pos = [0.0, -0.25, 0.4, 0.0,0.0,0.0]
+        self.home_pos = [0.0, -0.25, 0.4, 3.1,0.0,0.0]
 
     def homing(self):
         # Initialize the ROS node

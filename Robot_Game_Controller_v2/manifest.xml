@@ -1,0 +1,15 @@
+<package>
+  <description brief="Robot_Game_Controller_v2">
+
+     Robot_Game_Controller_v2
+
+  </description>
+  <author>Clan-Nur</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/Robot_Game_Controller_v2</url>
+  <depend package="std_msgs"/>
+  <depend package="rospy"/>
+  <depend package="roscpp"/>
+
+</package>
