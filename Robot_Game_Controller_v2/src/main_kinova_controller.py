@@ -320,7 +320,7 @@ if __name__ == '__main__':
 
     try:
         # Initialize the ROS node
-        rospy.init_node('kinova_move_node_4')
+        rospy.init_node('kinova_move_node')
         print("Ros strated")
         kinova_homing_c()
         #kinova_homing_c()
@@ -331,5 +331,5 @@ if __name__ == '__main__':
         
     except rospy.ROSInterruptException:
         pass
-    app.run(host="127.0.0.1",port=5011,debug=True)
+    app.run(host="127.0.0.3",port=5011,debug=True)
 
