@@ -183,7 +183,7 @@ def kinova_check_reach_goal(goal_X,goal_Y,goal_Z,goal_ThetaX,goal_ThetaY,goal_Th
         
 #### Homing        
 def kinova_homing_c():
-    kinova_move(0.0,200,550,175,0,-90)
+    kinova_move(-10.0,300,550,175,1,-90)
     kinova_set_fingger([90.0,90.0,90.0])
 #### Retract
 def kinova_retract_cup_1():
@@ -320,7 +320,7 @@ if __name__ == '__main__':
 
     try:
         # Initialize the ROS node
-        rospy.init_node('kinova_move_node')
+        rospy.init_node('kinova_llm_node_controller')
         print("Ros strated")
         kinova_homing_c()
         #kinova_homing_c()
