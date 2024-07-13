@@ -183,6 +183,7 @@ def kinova_check_reach_goal(goal_X,goal_Y,goal_Z,goal_ThetaX,goal_ThetaY,goal_Th
         
 #### Homing        
 def kinova_homing_c():
+    kinova_set_fingger([0.0,0.0,0.0])
     kinova_move(-10.0,300,550,175,1,-90)
     kinova_set_fingger([90.0,90.0,90.0])
 #### Retract
@@ -197,7 +198,7 @@ def kinova_retract_cup_3():
 #### pick       
 def kinova_pick_cup_1():
     kinova_set_fingger([0.0,0.0,0.0])
-    kinova_move(0.0,500,400,180,0,-90)
+    kinova_move(-180.0,500,400,180,0,-90)
     kinova_move(-180.0,500,20,180,0,-90)
     kinova_set_fingger([60.0,60.0,60.0])
     kinova_move(-180.0,500,400,180,0,-90)
@@ -210,7 +211,7 @@ def kinova_pick_cup_2():
     kinova_move(-30.0,500,400,180,0,-90)
 def kinova_pick_cup_3():
     kinova_set_fingger([0.0,0.0,0.0])
-    kinova_move(0.0,500,400,180,0,-90)
+    kinova_move(110.0,500,400,180,0,-90)
     kinova_move(110.0,500,20,180,0,-90)
     kinova_set_fingger([60.0,60.0,60.0])
     kinova_move(10.0,500,400,180,0,-90)
@@ -252,67 +253,58 @@ def index():
 
 @app.route('/receive_data', methods=['POST'])
 def receive_data():
+    print("ping")
     global data_received
     data_received = request.get_json()
     robot_type=""
     robot_id=""
+    commands=""
+
+    
     command=""
     argument_1=""
     argument_2=""
     argument_3=""
-    '''
-    for key, value in data_received.items():
-        if key=='robot_type':
-            robot_type=value
-        elif key=='robot_id':
-            robot_id=value
-        elif key=='command':
-            command=value
-        elif key=='argument_1':
-            argument_1=value
-        elif key=='argument_2':
-            argument_2=value
-        elif key=='argument_3':
-            argument_3=value
-    '''
-    #print(f'{key}: {value}')
     
     robot_type = data_received.get("robot_type", "")
     robot_id = data_received.get("robot_id", "")
-    command = data_received.get("command", "")
-    argument_1 = data_received.get("argument_1", "")
-    argument_2 = data_received.get("argument_2", "")
-    argument_3 = data_received.get("argument_3", "")
-    
+    commands = data_received.get("commands", "")
+    print(commands)
+    print(len(commands))
+        
     if robot_type=="j2n6s300":
         if robot_id=="0":
-            for i in range (len())
-            if command=="0":
-                kinova_homing_c()
-            elif command=="1":
-                if argument_1=="1":
-                    kinova_pick_cup_1()
-                if argument_1=="2":
-                    kinova_pick_cup_2()
-                elif argument_1=="3":
-                    kinova_pick_cup_3()
-            elif command=="2":
-                if argument_1=="1":
-                    kinova_place_cup_1()
-                    kinova_retract_cup_1()
-                if argument_1=="2":
-                    kinova_place_cup_2()
-                    kinova_retract_cup_2()
-                elif argument_1=="3":
-                    kinova_place_cup_3()
-                    kinova_retract_cup_2()
-            elif command=="3":
-                if argument_1=="1":
-                    kinova_retract_cup_1()
-                if argument_1=="2":
-                    kinova_retract_cup_2()
-                elif argument_1=="3":
-                    kinova_retract_cup_2()
+            for i in range (len(commands)):
+                command = commands[i].get("command", "")
+                argument_1 = commands[i].get("argument_1", "")
+                argument_2 = commands[i].get("argument_2", "")
+                argument_3 = commands[i].get("argument_3", "")
+                if command=="0" or command==0:
+                    kinova_homing_c()
+                elif command=="1" or command==1:
+                    if argument_1=="1" or argument_1==1:
+                        kinova_pick_cup_1()
+                    elif argument_1=="2"or argument_1==2:
+                        kinova_pick_cup_2()
+                    elif argument_1=="3"or argument_1==3:
+                        kinova_pick_cup_3()
+                elif command=="2" or command==2:
+                    if argument_1=="1"or argument_1==1:
+                        kinova_place_cup_1()
+                        kinova_retract_cup_1()
+                    elif argument_1=="2"or argument_1==2:
+                        kinova_place_cup_2()
+                        kinova_retract_cup_2()
+                    elif argument_1=="3"or argument_1==3:
+                        kinova_place_cup_3()
+                        kinova_retract_cup_3()
+                elif command=="3" or command==3:
+                    if argument_1=="1"or argument_1==1:
+                        kinova_retract_cup_1()
+                    elif argument_1=="2"or argument_1==2:
+                        kinova_retract_cup_2()
+                    elif argument_1=="3"or argument_1==3:
+                        kinova_retract_cup_3()
 
     print("Command Executed!")           
     return 'Command Executed!', 200
@@ -324,11 +316,6 @@ if __name__ == '__main__':
         rospy.init_node('kinova_llm_node_controller')
         print("Ros strated")
         kinova_homing_c()
-        #kinova_homing_c()
-        #kinova_pick_cup_2()
-        #kinova_place_cup_2()
-        #kinova_retract_cup_2()
-        #kinova_homing_c()
         
     except rospy.ROSInterruptException:
         pass
